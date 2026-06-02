@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrightSign Training Field Guide — UberDisplays</title>
+<style>
+  :root {
+    --primary: #00a651;
+    --dark: #0a0f14;
+    --mid: #0f1923;
+    --card: #142033;
+    --accent: #5bc8f5;
+    --green: #00a651;
+    --yellow: #f5a623;
+    --red: #e74c3c;
+    --text: #e8f0fe;
+    --subtext: #8fa8c8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--dark); color: var(--text); line-height: 1.6; }
+  header { background: linear-gradient(135deg, #006633, #00a651); padding: 30px 40px; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+  header .logo { font-size: 44px; }
+  header h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: 1px; }
+  header p { color: rgba(255,255,255,0.82); font-size: 0.92rem; margin-top: 4px; }
+  nav { background: var(--mid); padding: 0 40px; display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 2px solid var(--primary); position: sticky; top: 0; z-index: 100; }
+  nav a { color: var(--subtext); text-decoration: none; padding: 12px 15px; font-size: 0.83rem; font-weight: 600; transition: all 0.2s; border-bottom: 3px solid transparent; display: inline-block; }
+  nav a:hover { color: var(--text); border-bottom-color: var(--primary); }
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px; }
+  section { margin-bottom: 60px; }
+  h2 { font-size: 1.55rem; color: var(--accent); border-left: 5px solid var(--primary); padding-left: 16px; margin-bottom: 22px; }
+  h3 { font-size: 1.05rem; color: var(--text); margin-bottom: 11px; font-weight: 600; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
+  .card { background: var(--card); border-radius: 10px; padding: 22px; border: 1px solid rgba(255,255,255,0.07); transition: transform 0.2s, box-shadow 0.2s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+  .card h3 { color: var(--accent); margin-bottom: 9px; }
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps li { counter-increment: step; display: flex; gap: 14px; align-items: flex-start; margin-bottom: 11px; background: rgba(255,255,255,0.04); border-radius: 8px; padding: 11px 14px; font-size: 0.91rem; color: var(--subtext); }
+  .steps li::before { content: counter(step); background: var(--primary); color: white; font-weight: 700; font-size: 0.78rem; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .steps li strong { color: var(--text); }
+  .alert { border-radius: 8px; padding: 13px 17px; margin-bottom: 14px; display: flex; gap: 11px; align-items: flex-start; font-size: 0.91rem; }
+  .alert-icon { font-size: 1.15rem; flex-shrink: 0; }
+  .alert.red { background: rgba(231,76,60,0.13); border-left: 4px solid var(--red); }
+  .alert.yellow { background: rgba(245,166,35,0.13); border-left: 4px solid var(--yellow); }
+  .alert.green { background: rgba(0,166,81,0.13); border-left: 4px solid var(--green); }
+  .alert.blue { background: rgba(91,200,245,0.1); border-left: 4px solid var(--accent); }
+  .callout { background: rgba(0,166,81,0.08); border: 1px solid rgba(0,166,81,0.3); border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; display: flex; gap: 14px; align-items: flex-start; }
+  .callout-icon { font-size: 1.3rem; }
+  .callout h4 { color: var(--accent); margin-bottom: 4px; font-size: 0.95rem; }
+  .callout p { color: var(--subtext); font-size: 0.87rem; }
+  .callout a { color: var(--primary); }
+  code { background: rgba(255,255,255,0.1); padding: 2px 7px; border-radius: 4px; font-family: monospace; font-size: 0.88em; color: var(--accent); }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+  .data-table th { background: var(--primary); color: white; padding: 10px 13px; text-align: left; font-weight: 600; }
+  .data-table td { padding: 9px 13px; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--subtext); vertical-align: top; }
+  .data-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .data-table td:first-child { color: var(--text); font-weight: 600; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; margin-right: 3px; }
+  .tag.green { background: rgba(0,166,81,0.2); color: #00d467; border: 1px solid #00a651; }
+  .tag.blue { background: rgba(91,200,245,0.15); color: var(--accent); border: 1px solid var(--accent); }
+  .tag.yellow { background: rgba(245,166,35,0.15); color: var(--yellow); border: 1px solid var(--yellow); }
+  .tag.red { background: rgba(231,76,60,0.15); color: var(--red); border: 1px solid var(--red); }
+  .video-list { list-style: none; padding: 0; }
+  .video-list li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .video-list li:last-child { border-bottom: none; }
+  .play-btn { background: var(--primary); color: white; text-decoration: none; padding: 6px 13px; border-radius: 6px; font-size: 0.79rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+  .play-btn:hover { background: #008040; }
+  .play-btn.yt { background: #cc0000; }
+  .play-btn.yt:hover { background: #aa0000; }
+  .video-info h4 { color: var(--text); font-size: 0.92rem; margin-bottom: 3px; }
+  .video-info p { color: var(--subtext); font-size: 0.82rem; }
+  .size-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .size-box { background: var(--card); border-radius: 10px; padding: 18px; border: 1px solid rgba(255,255,255,0.07); }
+  .size-box h4 { color: var(--accent); margin-bottom: 10px; font-size: 0.95rem; }
+  .size-box p { color: var(--subtext); font-size: 0.86rem; margin-bottom: 6px; }
+  .screen-visual { background: rgba(0,166,81,0.15); border: 2px solid var(--primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 700; font-size: 0.8rem; margin-bottom: 10px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .dl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .dl-card { background: var(--mid); border-radius: 10px; padding: 16px; border: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 8px; }
+  .dl-card .dl-icon { font-size: 1.7rem; }
+  .dl-card h3 { color: var(--text); font-size: 0.93rem; }
+  .dl-card p { color: var(--subtext); font-size: 0.82rem; line-height: 1.45; }
+  .dl-card a { display: inline-block; background: var(--primary); color: white; text-decoration: none; padding: 6px 13px; border-radius: 5px; font-size: 0.8rem; font-weight: 700; transition: background 0.2s; align-self: flex-start; }
+  .dl-card a:hover { background: #008040; }
+  footer { background: var(--mid); text-align: center; padding: 20px; color: var(--subtext); font-size: 0.82rem; border-top: 1px solid rgba(255,255,255,0.05); }
+  footer a { color: var(--primary); text-decoration: none; }
+  @media (max-width: 700px) { .container { padding: 16px; } header { padding: 16px; } nav { padding: 0 6px; } nav a { padding: 9px 9px; font-size: 0.76rem; } h2 { font-size: 1.2rem; } .two-col, .size-demo { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">📺</div>
+  <div>
+    <h1>BrightSign Training Field Guide</h1>
+    <p>UberDisplays Tech Reference · BSN.Cloud · BrightAuthor:connected · Playlists · Canvas Sizing · Troubleshooting</p>
+  </div>
+</header>
+
+<nav>
+  <a href="#quickref">Quick Ref</a>
+  <a href="#ecosystem">Ecosystem</a>
+  <a href="#bsncloud">BSN.Cloud Setup</a>
+  <a href="#players">Players</a>
+  <a href="#presentations">Presentations</a>
+  <a href="#sizing">Canvas & Sizing</a>
+  <a href="#playlists">Playlists</a>
+  <a href="#publishing">Publishing</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+  <a href="#docs">Docs & Videos</a>
+</nav>
+
+<div class="container">
+
+  <!-- ═══════════════════ QUICK REF ═══════════════════ -->
+  <section id="quickref">
+    <div class="callout">
+      <div class="callout-icon">🔑</div>
+      <div>
+        <h4>Key Portals</h4>
+        <p>BSN.Cloud web portal: <a href="https://bsn.cloud" target="_blank">bsn.cloud</a> &nbsp;|&nbsp; BrightAuthor:connected download: <a href="https://www.brightsign.biz/resources/brightauthor/" target="_blank">brightsign.biz/resources/brightauthor</a> &nbsp;|&nbsp; Official docs: <a href="https://docs.brightsign.biz" target="_blank">docs.brightsign.biz</a></p>
+      </div>
+    </div>
+    <div class="callout" style="background: rgba(91,200,245,0.07); border-color: rgba(91,200,245,0.3);">
+      <div class="callout-icon">📋</div>
+      <div>
+        <h4>Two tiers of BSN.Cloud</h4>
+        <p><strong>BSN.Control</strong> (free) — player setup, management, monitoring. &nbsp;|&nbsp; <strong>BSN.Content</strong> (subscription) — everything in Control + cloud content hosting, dynamic playlists, scheduling, and publishing. You need BSN.Content to host and publish content remotely.</p>
+      </div>
+    </div>
+    <div class="callout" style="background: rgba(245,166,35,0.07); border-color: rgba(245,166,35,0.3);">
+      <div class="callout-icon">💡</div>
+      <div>
+        <h4>Publishing Methods — Know the difference</h4>
+        <p><strong>Standalone</strong> — USB/SD card only, no network. <strong>LFN</strong> (Local File Networking) — local server. <strong>SFN</strong> (Simple File Networking) — shared folder on LAN. <strong>BSN.Cloud</strong> — full cloud management. Most UberDisplays installs use BSN.Cloud.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ ECOSYSTEM ═══════════════════ -->
+  <section id="ecosystem">
+    <h2>🗺️ BrightSign Ecosystem Overview</h2>
+    <p style="color:var(--subtext); margin-bottom:20px;">Understanding how the pieces fit together before you start saves hours of frustration.</p>
+
+    <div class="card-grid" style="margin-bottom:28px;">
+      <div class="card">
+        <h3>BrightSign Player</h3>
+        <p style="color:var(--subtext); font-size:0.88rem;">The hardware media player that runs your content. Connects to your display via HDMI. Stores content on internal storage or SD/USB. Managed remotely via BSN.Cloud or locally via BrightAuthor:connected.</p>
+      </div>
+      <div class="card">
+        <h3>BrightAuthor:connected</h3>
+        <p style="color:var(--subtext); font-size:0.88rem;">Free Windows/Mac desktop app — the primary tool for creating presentations, managing players, and publishing content. Connects to BSN.Cloud for remote management. This is where you design everything.</p>
+      </div>
+      <div class="card">
+        <h3>BSN.Cloud</h3>
+        <p style="color:var(--subtext); font-size:0.88rem;">BrightSign's cloud platform. BSN.Control (free) handles player setup and monitoring. BSN.Content (paid) adds cloud content hosting, dynamic playlists, and remote publishing. Accessed via browser at bsn.cloud or through BrightAuthor:connected.</p>
+      </div>
+      <div class="card">
+        <h3>Presentation</h3>
+        <p style="color:var(--subtext); font-size:0.88rem;">A project file you build in BrightAuthor:connected. Contains zones, playlists, schedules, and settings. Published to a player or group of players. Think of it as the "show" that runs on screen.</p>
+      </div>
+      <div class="card">
+        <h3>Groups</h3>
+        <p style="color:var(--subtext); font-size:0.88rem;">Logical groupings of players in BSN.Cloud. Assign a presentation and schedule to a group — all players in that group play the same content. Essential for multi-location deployments.</p>
+      </div>
+      <div class="card">
+        <h3>Dynamic Playlist</h3>
+        <p style="color:var(--subtext); font-size:0.88rem;">A cloud-hosted playlist that multiple presentations can reference. Update the dynamic playlist once — every presentation using it picks up the change automatically. Requires BSN.Content subscription.</p>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>Task</th><th>Tool to Use</th><th>Requires</th></tr></thead>
+      <tbody>
+        <tr><td>Design a presentation</td><td>BrightAuthor:connected (desktop app)</td><td>Free download</td></tr>
+        <tr><td>Set up a new player</td><td>BrightAuthor:connected + BSN.Control</td><td>Free BSN account</td></tr>
+        <tr><td>Publish content to player</td><td>BrightAuthor:connected → Publish</td><td>BSN.Content subscription for cloud</td></tr>
+        <tr><td>Manage content library</td><td>BSN.Cloud portal or BA:connected Content tab</td><td>BSN.Content subscription</td></tr>
+        <tr><td>Create dynamic playlists</td><td>BA:connected Content tab → New Component</td><td>BSN.Content subscription</td></tr>
+        <tr><td>Schedule content</td><td>BA:connected Schedule tab</td><td>BSN.Content subscription</td></tr>
+        <tr><td>Monitor players remotely</td><td>BSN.Cloud portal or BA:connected</td><td>BSN.Control (free)</td></tr>
+        <tr><td>Update content on-site only</td><td>USB drive or local network</td><td>No subscription needed</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════════════ BSN.CLOUD SETUP ═══════════════════ -->
+  <section id="bsncloud">
+    <h2>☁️ BSN.Cloud — Account & Network Setup</h2>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Creating Your Account & First Network</h3>
+    <ol class="steps" style="margin-bottom:26px;">
+      <li><strong>Open BrightAuthor:connected</strong> → click <strong>Connect</strong> on the login screen → select <strong>Sign in as a new user</strong></li>
+      <li>Enter your email and create a password → verify your email address → return to BrightAuthor:connected and log in</li>
+      <li>Give your BSN.Cloud network a name (e.g., "UberDisplays Main") → agree to terms → click <strong>Create</strong></li>
+      <li>Your new network is a <strong>BSN.Control</strong> network by default (free tier)</li>
+      <li>To enable BSN.Content: go to the <strong>Admin</strong> tab → select <strong>BSN Content Trial</strong> to start a subscription</li>
+      <li>To create additional networks: Admin tab → <strong>New Network</strong> → enter a unique name → click Create. You'll receive a setup email.</li>
+    </ol>
+    <div class="alert blue" style="margin-bottom:26px;">
+      <div class="alert-icon">🎥</div>
+      <div>Official account setup video: <a href="https://vimeo.com/349557791" target="_blank" style="color:var(--accent);">vimeo.com/349557791</a> — walks through signing up and first network creation.</div>
+    </div>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">BSN.Cloud Portal — Key Sections</h3>
+    <div class="card-grid" style="margin-bottom:26px;">
+      <div class="card">
+        <h3>Network Tab</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">View and manage all players on your network. See online/offline status, player model, firmware version, IP address. Add or remove players. Organize into Groups.</p>
+      </div>
+      <div class="card">
+        <h3>Content Tab</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Upload and manage media files (video, images, audio). Create dynamic playlists, live data feeds, and live media feeds. Requires BSN.Content subscription.</p>
+      </div>
+      <div class="card">
+        <h3>Presentation Tab</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">View all presentations on your network. See which players or groups each presentation is published to. Publish, unpublish, or reassign presentations.</p>
+      </div>
+      <div class="card">
+        <h3>Schedule Tab</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Set time-based schedules for content playback. Assign different presentations to different time slots or days of the week per player or group.</p>
+      </div>
+      <div class="card">
+        <h3>Admin Tab</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Manage user accounts and permissions, create new networks, manage subscriptions, view storage usage, and set network-wide settings.</p>
+      </div>
+      <div class="card">
+        <h3>Groups</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Organize players into groups (by location, display type, or client). Publish one presentation to the whole group. All players in the group automatically receive the same content.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PLAYERS ═══════════════════ -->
+  <section id="players">
+    <h2>🖥️ BrightSign Players — Setup & Registration</h2>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Adding a New Player to BSN.Cloud</h3>
+    <ol class="steps" style="margin-bottom:24px;">
+      <li><strong>Power on the player</strong> and connect it to your network via Ethernet (recommended for initial setup). Connect HDMI to your display.</li>
+      <li>The player will show a <strong>setup screen</strong> on first boot with a serial number and setup code. Note these down.</li>
+      <li>In BrightAuthor:connected → go to the <strong>Network</strong> tab → click <strong>Add Player</strong></li>
+      <li>Enter the player's serial number or use the auto-detect feature if it's on the same LAN</li>
+      <li>Follow the setup wizard — the player downloads a setup file from BSN.Cloud and registers itself to your network</li>
+      <li>Once registered, the player appears in your Network tab — assign it to a <strong>Group</strong></li>
+      <li>Publish a presentation to the group or directly to the player — content downloads and playback begins</li>
+    </ol>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Player Series Reference</h3>
+    <table class="data-table" style="margin-bottom:20px;">
+      <thead><tr><th>Series</th><th>Models</th><th>Max Resolution</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td>Series 5</td><td>XT5, XC5, XD5, LS5, HD5</td><td>4K / 8K (XC5)</td><td>High-end installs, multi-screen, LED walls</td></tr>
+        <tr><td>Series 4</td><td>XT4, XD4, LS4, HD4, AU4</td><td>4K</td><td>Standard installs, retail, hospitality</td></tr>
+        <tr><td>XC5 (multi-output)</td><td>XC5</td><td>3× 4K outputs</td><td>Video walls, LED walls, multi-zone displays</td></tr>
+        <tr><td>LS Series</td><td>LS5, LS4, LS424</td><td>1080p / 4K</td><td>Entry-level, simple signage, retail</td></tr>
+        <tr><td>HD Series</td><td>HD5, HD4</td><td>1080p / 4K</td><td>Standard displays, menu boards</td></tr>
+        <tr><td>AU Series</td><td>AU335</td><td>1080p</td><td>Audio-only or simple signage</td></tr>
+      </tbody>
+    </table>
+    <div class="alert yellow">
+      <div class="alert-icon">⚠️</div>
+      <div><strong>Target Player matters:</strong> When creating a presentation in BrightAuthor:connected, you must select the correct <strong>Target Player</strong> model. This determines available resolutions, zone types, and features. A presentation built for LS5 may not have the same options as one built for XC5.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PRESENTATIONS ═══════════════════ -->
+  <section id="presentations">
+    <h2>🎨 Building Presentations in BrightAuthor:connected</h2>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Creating a New Presentation</h3>
+    <ol class="steps" style="margin-bottom:24px;">
+      <li>Open BrightAuthor:connected → go to <strong>Presentation</strong> tab → click <strong>New Presentation</strong></li>
+      <li>Select your <strong>Target Player</strong> model — this is critical, it sets what's available</li>
+      <li>Select <strong>Output Resolution</strong> — match this to your display (e.g., 1920×1080 for 1080p, 3840×2160 for 4K)</li>
+      <li>Select a <strong>Template</strong>: Single Zone (one fullscreen item at a time), Playlist, Multi-Zone, HTML, or Video Stream</li>
+      <li>Set <strong>Screen Orientation</strong>: Landscape, Portrait-Bottom Left, or Portrait-Bottom Right</li>
+      <li>Click <strong>Start</strong> — you enter the Presentation Builder</li>
+      <li>In the <strong>Layout tab</strong>: position and resize zones on your canvas</li>
+      <li>In the <strong>Content tab</strong>: drag media from the library into each zone's playlist</li>
+      <li>Set image display duration using the <strong>stopwatch icon</strong> on each image. Videos play their full length automatically.</li>
+      <li>Click <strong>Save</strong> → then <strong>Publish</strong> to push to your player(s)</li>
+    </ol>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Zone Types Explained</h3>
+    <table class="data-table" style="margin-bottom:24px;">
+      <thead><tr><th>Zone Type</th><th>What It Does</th><th>Use When</th></tr></thead>
+      <tbody>
+        <tr><td>Video or Images</td><td>Plays videos and/or images in a looping playlist</td><td>Most common — general signage content</td></tr>
+        <tr><td>Images Only</td><td>Images only, no video — uses graphics layer</td><td>Overlays, logos, static graphics</td></tr>
+        <tr><td>Video Only</td><td>Video only — uses dedicated video decoder</td><td>When you need maximum video performance</td></tr>
+        <tr><td>Ticker</td><td>Scrolling text ticker (RSS, plain text, live data feed)</td><td>News tickers, price displays, alerts</td></tr>
+        <tr><td>Background Image</td><td>Static image in the background video layer</td><td>Persistent background behind other zones</td></tr>
+        <tr><td>Clock</td><td>Live clock display</td><td>Time display in corner of screen</td></tr>
+        <tr><td>HTML5</td><td>Displays a web page or HTML app</td><td>Interactive content, custom web widgets</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Simple vs Advanced Zones</h3>
+    <div class="two-col" style="margin-bottom:24px;">
+      <div class="card">
+        <h3>Simple Zone</h3>
+        <p style="color:var(--subtext); font-size:0.87rem; margin-bottom:10px;">Loops media endlessly in order. No interactivity or conditional logic. Fast and easy to set up. All you need for most digital signage — images and videos that loop continuously.</p>
+        <p style="color:var(--subtext); font-size:0.83rem;"><strong>Use for:</strong> Menu boards, lobby displays, retail signage</p>
+      </div>
+      <div class="card">
+        <h3>Advanced Zone</h3>
+        <p style="color:var(--subtext); font-size:0.87rem; margin-bottom:10px;">Supports events and transitions — content changes based on triggers (GPIO button press, touchscreen input, timer, UDP command, etc.). Complex presentations with interactivity. Once you add events, you can't revert to Simple.</p>
+        <p style="color:var(--subtext); font-size:0.83rem;"><strong>Use for:</strong> Interactive kiosks, touch displays, event-triggered content</p>
+      </div>
+    </div>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Content Storage Modes</h3>
+    <div class="two-col" style="margin-bottom:14px;">
+      <div class="card">
+        <h3>BSN Content Mode ☁️</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Media stored on BSN.Cloud. Changes and updates happen remotely. Required for dynamic playlists and multi-player publishing via cloud. Requires BSN.Content subscription.</p>
+      </div>
+      <div class="card">
+        <h3>Local Mode 💻</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Media stored on your local machine. Presentation published via USB, local network, or SFN. Works without a BSN.Content subscription. Can be uploaded to BSN.Cloud later.</p>
+      </div>
+    </div>
+    <div class="alert yellow">
+      <div class="alert-icon">⚠️</div>
+      <div><strong>Important:</strong> A presentation cannot mix BSN Content and Local content. Choose one mode when creating the presentation — changing modes requires starting over.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CANVAS & SIZING ═══════════════════ -->
+  <section id="sizing">
+    <h2>📐 Canvas Size, Presentation Size & Screen Sizing</h2>
+
+    <div class="callout" style="margin-bottom:22px;">
+      <div class="callout-icon">🖼️</div>
+      <div>
+        <h4>The relationship between Canvas, Zone, and Output Resolution</h4>
+        <p><strong>Output Resolution</strong> = what the player sends to the display (e.g., 1920×1080). <strong>Canvas</strong> = the total working area of your presentation — usually matches output resolution. <strong>Zone</strong> = a defined area within the canvas where content plays. You can have multiple zones on one canvas.</p>
+      </div>
+    </div>
+
+    <div class="size-demo">
+      <div class="size-box">
+        <h4>Standard Canvas Sizes</h4>
+        <div class="screen-visual" style="height:90px;">1920 × 1080 (Full HD / 1080p)</div>
+        <p>Most common. Use for standard displays, menu boards, digital signage screens.</p>
+        <div class="screen-visual" style="height:90px;">3840 × 2160 (4K UHD)</div>
+        <p>For 4K displays or high-res video. Requires Series 4 or 5 player.</p>
+      </div>
+      <div class="size-box">
+        <h4>Portrait & Custom Sizes</h4>
+        <div class="screen-visual" style="height:55px; width:55px; margin:0 auto 10px;">1080 × 1920</div>
+        <p style="margin-bottom:10px;">Portrait orientation — rotate the player output in BrightAuthor:connected. Choose Portrait-Bottom Left or Portrait-Bottom Right depending on how the screen is mounted.</p>
+        <div class="screen-visual" style="height:50px;">Custom (e.g., 3840 × 540 for ultrawide)</div>
+        <p>For unusual LED wall dimensions. Set the zone size to match your actual pixel count.</p>
+      </div>
+    </div>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Scale to Fit / Fill — What Each Mode Does</h3>
+    <table class="data-table" style="margin-bottom:24px;">
+      <thead><tr><th>View Mode</th><th>What Happens</th><th>Aspect Ratio</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Scale to Fit</strong></td><td>Media scaled to fit entirely within the zone. Black bars added if needed (letterbox/pillarbox).</td><td>✅ Preserved</td><td>When you must show the full image without cropping — video walls, artwork</td></tr>
+        <tr><td><strong>Fill Screen</strong> (Fill Screen and Centered)</td><td>Media scaled to fill the entire zone. Excess edges cropped. No black bars.</td><td>✅ Preserved (but cropped)</td><td>Background fills, brand content where edge-cropping is acceptable</td></tr>
+        <tr><td><strong>Stretch to Fill</strong></td><td>Media stretched to fill zone exactly. May distort the image.</td><td>❌ Distorted</td><td>Rarely recommended — only when source resolution exactly matches zone</td></tr>
+        <tr><td><strong>Letterboxed and Centered</strong></td><td>Media displayed at native size, centered. Black areas outside if smaller than zone.</td><td>✅ Preserved</td><td>When media is smaller than zone and you don't want scaling</td></tr>
+        <tr><td><strong>Fill and Centered</strong></td><td>Media fills zone from center, crops outside edges symmetrically.</td><td>✅ Preserved (cropped)</td><td>Full-bleed backgrounds, photos where center focus is key</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Sizing Tips for Common Scenarios</h3>
+    <div class="card-grid" style="margin-bottom:24px;">
+      <div class="card">
+        <h3>🖥️ Standard HD Display (1080p)</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Set canvas and output resolution to <strong>1920×1080</strong>. Create your media at 1920×1080 for best quality. Use <em>Scale to Fit</em> for mixed content, <em>Fill Screen</em> for background video.</p>
+      </div>
+      <div class="card">
+        <h3>📱 Portrait Screen</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Set output to 1920×1080, select <strong>Portrait-Bottom Left or Right</strong> in presentation settings. Create content at <strong>1080×1920</strong>. The player rotates the output automatically.</p>
+      </div>
+      <div class="card">
+        <h3>🖼️ 4K Display</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Set canvas to <strong>3840×2160</strong>. Requires Series 4 or 5 player. Create media at 4K resolution. H.265 video recommended for best performance at 4K.</p>
+      </div>
+      <div class="card">
+        <h3>💡 LED Wall (Non-Standard)</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Set output to a <strong>standard resolution equal to or larger</strong> than your LED pixel count. Then set the <strong>zone size</strong> to match your exact LED pixel dimensions. Use a video processor or plugin to scale to the wall. See the LED wall how-to guide.</p>
+      </div>
+      <div class="card">
+        <h3>📺 Multi-Zone Layout</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Canvas = full output resolution (e.g., 1920×1080). Create multiple zones that divide the canvas — e.g., main video zone at 1920×900, ticker at 1920×180. Zone pixel values must be set precisely in the zone properties.</p>
+      </div>
+      <div class="card">
+        <h3>🔲 Video Wall (Multiple Players)</h3>
+        <p style="color:var(--subtext); font-size:0.87rem;">Each player drives one screen. Divide the canvas virtually — e.g., for a 2×1 wall at 3840×1080, each player gets a 1920×1080 zone. Use BrightWall plugin or the XC5's built-in multi-screen support.</p>
+      </div>
+    </div>
+
+    <div class="alert green">
+      <div class="alert-icon">✅</div>
+      <div><strong>Best practice:</strong> Always create your source media at exactly the resolution of the zone it will play in. This avoids scaling artifacts and gives the sharpest result. For a 1920×1080 zone, export video at 1920×1080. For a 500×200 ticker zone, create graphics at 500×200.</div>
+    </div>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">LED Wall — Setting Zone Size for Non-Standard Resolutions</h3>
+    <ol class="steps">
+      <li>Determine your LED wall's exact pixel dimensions (e.g., 2560×720)</li>
+      <li>In BrightAuthor:connected → New Presentation → set Output Resolution to a <strong>standard resolution larger than your wall</strong> (e.g., 3840×1080 for a 2560×720 wall)</li>
+      <li>In the <strong>Layout tab</strong> → select your zone → in Zone Properties set <strong>Width: 2560, Height: 720</strong></li>
+      <li>Your content will play at the correct pixel count. The video processor or LED controller handles the physical output mapping.</li>
+      <li>For Series 5 XC5 players with multiple outputs: use the <strong>Screens tab</strong> to assign content to each HDMI output independently</li>
+      <li>For custom resolution via plugin: use a BrightSign modeline plugin to force the player output to a custom resolution directly</li>
+    </ol>
+  </section>
+
+  <!-- ═══════════════════ PLAYLISTS ═══════════════════ -->
+  <section id="playlists">
+    <h2>🎬 Playlists & Dynamic Playlists</h2>
+
+    <div class="two-col" style="margin-bottom:26px;">
+      <div class="card">
+        <h3>Standard Playlist</h3>
+        <p style="color:var(--subtext); font-size:0.87rem; margin-bottom:10px;">A fixed list of media items within a zone. Items play in order then loop. To change content, you must edit the presentation and republish. Content is baked into the presentation file.</p>
+        <p style="color:var(--subtext); font-size:0.83rem;"><strong>Use when:</strong> Content rarely changes. Simple loops. No BSN.Content needed for local mode.</p>
+      </div>
+      <div class="card">
+        <h3>Dynamic Playlist ⚡</h3>
+        <p style="color:var(--subtext); font-size:0.87rem; margin-bottom:10px;">A cloud-hosted playlist that lives in BSN.Cloud independently of any presentation. Multiple presentations can reference the same dynamic playlist. Update the playlist once — all players using it get the update automatically without republishing the presentation.</p>
+        <p style="color:var(--subtext); font-size:0.83rem;"><strong>Use when:</strong> Content changes frequently. One update should reach many screens. Requires BSN.Content.</p>
+      </div>
+    </div>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Creating a Dynamic Playlist — Step by Step</h3>
+    <ol class="steps" style="margin-bottom:24px;">
+      <li>In BrightAuthor:connected → go to <strong>Content</strong> tab → click <strong>New Component</strong> → select <strong>Dynamic Playlist</strong></li>
+      <li>Enter a name for the dynamic playlist (e.g., "Daily Specials") → click <strong>Create</strong></li>
+      <li>In the dynamic playlist builder: select a folder in the library on the left → <strong>drag media files</strong> into the playlist area on the right</li>
+      <li>Reorder items by dragging them to different positions in the playlist</li>
+      <li>Select each item to set its properties: <strong>Time on Screen</strong> (images), <strong>Volume</strong> (video/audio), and optionally a <strong>Validity Date</strong> range</li>
+      <li>Click the <strong>Save</strong> icon — the dynamic playlist is saved to BSN.Cloud</li>
+      <li>Now open your presentation → in a zone, instead of dragging media, drag the <strong>dynamic playlist widget</strong> from the widgets pane</li>
+      <li>Publish the presentation — from now on, updating the dynamic playlist automatically updates all players using it, no republish needed</li>
+    </ol>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Validity Dates on Playlist Items</h3>
+    <div class="alert blue" style="margin-bottom:14px;">
+      <div class="alert-icon">📅</div>
+      <div>Validity dates let you schedule when individual items appear inside a dynamic playlist — e.g., a holiday promotion that runs Nov 11–Dec 31. <strong>Important:</strong> Validity dates use <strong>UTC timezone</strong>, not local time. Account for the UTC offset when setting start/end times.</div>
+    </div>
+    <ol class="steps" style="margin-bottom:24px;">
+      <li>Select a media item in your dynamic playlist → check <strong>Enable Validity Date</strong> in the properties panel</li>
+      <li>Set <strong>Start Date/Time</strong> and <strong>End Date/Time</strong> in UTC</li>
+      <li>The item shows a clock icon — yellow = not started yet, green = currently active, gray = expired</li>
+      <li>Save the dynamic playlist — all players update at their next refresh interval</li>
+    </ol>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Other Content Types (BSN.Content)</h3>
+    <table class="data-table">
+      <thead><tr><th>Type</th><th>What It Is</th><th>Use For</th></tr></thead>
+      <tbody>
+        <tr><td>Tagged Playlist</td><td>Playlist where items have tags — player filters what to show based on player tags</td><td>Showing location-specific content from one shared playlist</td></tr>
+        <tr><td>Live Data Feed (RSS)</td><td>Cloud-hosted RSS feed you build and update via simple UI</td><td>Text tickers, news feeds, custom data displays</td></tr>
+        <tr><td>Live Media Feed (MRSS)</td><td>Cloud-hosted media RSS — like a dynamic playlist but in MRSS format</td><td>Integration with third-party CMS or data sources</td></tr>
+        <tr><td>HTML Site</td><td>Upload a full HTML5 website/app to BSN.Cloud</td><td>Custom interactive presentations, web-based widgets</td></tr>
+        <tr><td>Node.js App</td><td>Upload a Node.js application to run on the player</td><td>Advanced custom applications, API integrations</td></tr>
+        <tr><td>Script / Plugin</td><td>.brs script that runs on the player</td><td>Custom video modes, GPIO control, API calls</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════════════ PUBLISHING ═══════════════════ -->
+  <section id="publishing">
+    <h2>📤 Publishing Content</h2>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Publishing a Presentation to Players</h3>
+    <ol class="steps" style="margin-bottom:24px;">
+      <li>In BrightAuthor:connected → open your presentation → click the <strong>Publish</strong> icon (cloud with up arrow)</li>
+      <li>Select <strong>Players</strong> or <strong>Groups</strong> to publish to. Publishing to a group pushes to all players in that group simultaneously.</li>
+      <li>Review the publish summary → click <strong>Publish</strong> to confirm</li>
+      <li>Content downloads to the player(s) over the network. Players show new content as soon as download is complete.</li>
+      <li>Check publish status in the Network tab — green = published and playing, yellow = downloading, red = error</li>
+    </ol>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Scheduling Content</h3>
+    <ol class="steps" style="margin-bottom:24px;">
+      <li>In BrightAuthor:connected → go to the <strong>Schedule</strong> tab</li>
+      <li>Select a <strong>Group</strong> or player to schedule</li>
+      <li>Click <strong>Add Event</strong> → set the day(s) of week and time range</li>
+      <li>Select which <strong>Presentation</strong> should play during that time slot</li>
+      <li>Add multiple events to create a full weekly schedule — e.g., morning content 6am–12pm, afternoon 12pm–6pm, evening 6pm–close</li>
+      <li>Click <strong>Publish Schedule</strong> — the schedule downloads to the player alongside the presentations</li>
+    </ol>
+
+    <div class="alert green">
+      <div class="alert-icon">✅</div>
+      <div><strong>Dynamic playlist updates don't require republishing.</strong> If your presentation contains a dynamic playlist, just update the dynamic playlist content — the player picks up changes at its next refresh interval (configurable, default varies by player).</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TROUBLESHOOTING ═══════════════════ -->
+  <section id="troubleshooting">
+    <h2>🔧 Troubleshooting</h2>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+      <div style="background:var(--mid); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06);">
+        <h3 style="color:var(--red); margin-bottom:12px;">⬛ Black Screen / No Content</h3>
+        <div style="color:var(--green); font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:8px;">Check in order:</div>
+        <ul style="list-style:none; padding:0;">
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px; position:relative;">→ Verify HDMI cable is seated and display input is correct</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px; position:relative;">→ Check a presentation is actually published to this player</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px; position:relative;">→ Confirm output resolution in presentation matches display's native resolution</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px; position:relative;">→ Check player is online in Network tab — may still be downloading</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px; position:relative;">→ Try rebooting the player from the Network tab → right-click → Reboot</li>
+        </ul>
+      </div>
+      <div style="background:var(--mid); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06);">
+        <h3 style="color:var(--red); margin-bottom:12px;">🔴 Player Shows Offline in BSN.Cloud</h3>
+        <div style="color:var(--green); font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:8px;">Check in order:</div>
+        <ul style="list-style:none; padding:0;">
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check Ethernet cable / WiFi connection on site</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Verify network has internet access (not just LAN)</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check that BSN.Cloud ports aren't blocked by firewall (port 443)</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Power cycle the player — unplug for 10 seconds</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check if player firmware needs updating</li>
+        </ul>
+      </div>
+      <div style="background:var(--mid); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06);">
+        <h3 style="color:var(--red); margin-bottom:12px;">🖼️ Content Looks Stretched or Cropped</h3>
+        <div style="color:var(--green); font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:8px;">Check in order:</div>
+        <ul style="list-style:none; padding:0;">
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check View Mode setting on the zone — try "Scale to Fit" to preserve aspect ratio</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Verify media resolution matches zone dimensions</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check output resolution matches display's native resolution</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ If using "Stretch to Fill", switch to "Fill Screen and Centered" instead</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Re-export media at exact zone pixel dimensions for best results</li>
+        </ul>
+      </div>
+      <div style="background:var(--mid); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06);">
+        <h3 style="color:var(--red); margin-bottom:12px;">📋 Dynamic Playlist Not Updating</h3>
+        <div style="color:var(--green); font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:8px;">Check in order:</div>
+        <ul style="list-style:none; padding:0;">
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Confirm you saved the dynamic playlist after making changes</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check player is online — offline players can't receive updates</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check validity dates — items with future start dates won't show yet</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Wait for the player's update interval to pass, then check again</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Republish the presentation if the dynamic playlist widget was recently added</li>
+        </ul>
+      </div>
+      <div style="background:var(--mid); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06);">
+        <h3 style="color:var(--red); margin-bottom:12px;">🎥 Video Stuttering or Not Playing</h3>
+        <div style="color:var(--green); font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:8px;">Check in order:</div>
+        <ul style="list-style:none; padding:0;">
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check video codec — BrightSign supports H.264 and H.265 MP4. Avoid MOV, AVI, WMV</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check bitrate — keep under 40Mbps for 1080p, under 80Mbps for 4K</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Verify SD card / storage speed is sufficient (Class 10 / UHS-1 minimum)</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Reduce number of zones playing video simultaneously</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check if player firmware is current — update if behind</li>
+        </ul>
+      </div>
+      <div style="background:var(--mid); border-radius:10px; padding:20px; border:1px solid rgba(255,255,255,0.06);">
+        <h3 style="color:var(--red); margin-bottom:12px;">❌ Publish Failing or Stuck</h3>
+        <div style="color:var(--green); font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:8px;">Check in order:</div>
+        <ul style="list-style:none; padding:0;">
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check player is online with internet access</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Check player storage isn't full — delete old presentations</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Verify BSN.Content subscription is active in Admin tab</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Try publishing to a single player instead of a group to isolate issue</li>
+          <li style="color:var(--subtext); font-size:0.88rem; padding:4px 0 4px 18px;">→ Reboot BrightAuthor:connected and retry</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ DOCS & VIDEOS ═══════════════════ -->
+  <section id="docs">
+    <h2>📚 Official Documentation & Training Videos</h2>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Official Documentation (docs.brightsign.biz)</h3>
+    <div class="dl-grid" style="margin-bottom:28px;">
+      <div class="dl-card">
+        <div class="dl-icon">🚀</div>
+        <h3>Start Here — New User Guide</h3>
+        <p>8–12 minute overview of the full BrightSign ecosystem. Best starting point for anyone new to BrightSign.</p>
+        <a href="https://docs.brightsign.biz/start-here" target="_blank">Open Guide</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-icon">📖</div>
+        <h3>User Guides</h3>
+        <p>Full documentation for BrightAuthor:connected — presentations, content, schedule, network, admin, BSN.Cloud.</p>
+        <a href="https://docs.brightsign.biz/user-guides" target="_blank">Open Guide</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-icon">🎥</div>
+        <h3>Video Guides (How-Tos)</h3>
+        <p>Concise video walkthroughs covering player setup, presentations, publishing, touch panels, and CMS integrations.</p>
+        <a href="https://docs.brightsign.biz/how-tos/video-guides" target="_blank">Open Guide</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-icon">📄</div>
+        <h3>All Documentation</h3>
+        <p>Full BrightSign docs hub — hardware, releases, advanced topics, developer docs, legacy support.</p>
+        <a href="https://docs.brightsign.biz" target="_blank">Open Docs</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-icon">☁️</div>
+        <h3>BSN.Cloud User Guide</h3>
+        <p>Full guide to BSN.Control and BSN.Content — account setup, content management, player management.</p>
+        <a href="https://docs.brightsign.biz/user-guides/bsncloud" target="_blank">Open Guide</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-icon">🎬</div>
+        <h3>Presentation User Guide</h3>
+        <p>Deep dive into building presentations — zones, playlists, widgets, advanced events, templates.</p>
+        <a href="https://docs.brightsign.biz/user-guides/presentation" target="_blank">Open Guide</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-icon">📋</div>
+        <h3>Content User Guide</h3>
+        <p>Dynamic playlists, live data feeds, media feeds, HTML sites, scripts — full content library reference.</p>
+        <a href="https://docs.brightsign.biz/user-guides/content" target="_blank">Open Guide</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-icon">💡</div>
+        <h3>LED Wall How-To</h3>
+        <p>Display a Direct View LED Presentation — zone sizing, custom resolutions, multi-output players.</p>
+        <a href="https://docs.brightsign.biz/how-tos/display-a-direct-view-led-presentation" target="_blank">Open Guide</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-icon">⚡</div>
+        <h3>Quickstart Guide</h3>
+        <p>Get a player up and running from scratch — hardware, network, first presentation, first publish.</p>
+        <a href="https://www.brightsign.biz/resources/quickstart-guide/" target="_blank">Open Guide</a>
+      </div>
+    </div>
+
+    <h3 style="color:var(--accent); margin-bottom:14px;">Video Tutorials</h3>
+    <ul class="video-list" style="margin-bottom:28px;">
+      <li>
+        <div class="video-info"><h4>Setting Up Your Player</h4><p>Official BrightSign video — initial hardware setup, connecting to BSN.Cloud, first network registration</p></div>
+        <a href="https://docs.brightsign.biz/how-tos/video-guides" target="_blank" class="play-btn">▶ Watch</a>
+      </li>
+      <li>
+        <div class="video-info"><h4>Creating Presentations</h4><p>Official walkthrough — new presentation, zones, adding media, simple playlists, multi-zone layouts</p></div>
+        <a href="https://vimeo.com/350773959" target="_blank" class="play-btn">▶ Vimeo</a>
+      </li>
+      <li>
+        <div class="video-info"><h4>BSN.Cloud Account Setup</h4><p>Official video — creating your account, setting up your first network, BSN.Content subscription</p></div>
+        <a href="https://vimeo.com/349557791" target="_blank" class="play-btn">▶ Vimeo</a>
+      </li>
+      <li>
+        <div class="video-info"><h4>Content Library & Dynamic Playlists</h4><p>Official video — uploading media, creating dynamic playlists, managing components</p></div>
+        <a href="https://vimeo.com/349088530" target="_blank" class="play-btn">▶ Vimeo</a>
+      </li>
+      <li>
+        <div class="video-info"><h4>Publishing Presentations</h4><p>Official walkthrough — publishing to players and groups, scheduling, monitoring publish status</p></div>
+        <a href="https://docs.brightsign.biz/how-tos/video-guides" target="_blank" class="play-btn">▶ Watch</a>
+      </li>
+      <li>
+        <div class="video-info"><h4>Full Tutorial Video Library (BrightSign official)</h4><p>All BrightSign tutorial videos — player setup, presentations, publishing, interactive, CMS</p></div>
+        <a href="https://www.brightsign.biz/resources/tutorial-videos/" target="_blank" class="play-btn yt">▶ All Videos</a>
+      </li>
+      <li>
+        <div class="video-info"><h4>BrightSign YouTube Channel</h4><p>Official BrightSign YouTube — walkthroughs, product videos, how-tos, feature demos</p></div>
+        <a href="https://www.youtube.com/@BrightSignLLC" target="_blank" class="play-btn yt">▶ YouTube</a>
+      </li>
+      <li>
+        <div class="video-info"><h4>Manage Media (YouTube)</h4><p>Managing media on BSN.Cloud — upload, organize, delete, content library walkthrough</p></div>
+        <a href="https://www.youtube.com/watch?v=N3Zr5Rbym9c" target="_blank" class="play-btn yt">▶ YouTube</a>
+      </li>
+    </ul>
+
+    <div style="padding:18px; background:var(--mid); border-radius:10px; margin-bottom:20px;">
+      <h3 style="color:var(--accent); margin-bottom:12px;">📞 BrightSign Support</h3>
+      <p style="color:var(--subtext); margin-bottom:6px;">Support portal: <a href="https://support.brightsign.biz" target="_blank" style="color:var(--primary);">support.brightsign.biz</a></p>
+      <p style="color:var(--subtext); margin-bottom:6px;">Community forums: <a href="https://support.brightsign.biz/hc/en-us/community/topics" target="_blank" style="color:var(--primary);">BrightSign Community</a></p>
+      <p style="color:var(--subtext);">Developer docs: <a href="https://developer.brightsign.biz" target="_blank" style="color:var(--primary);">developer.brightsign.biz</a></p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>BrightSign Training Field Guide · UberDisplays · <a href="https://docs.brightsign.biz" target="_blank">docs.brightsign.biz</a></p>
+  <p style="margin-top:4px; font-size:0.77rem;">Sources: docs.brightsign.biz · support.brightsign.biz · brightsign.biz · vimeo.com/brightsign</p>
+</footer>
+
+</body>
+</html>
