@@ -84,6 +84,15 @@
   .dl-card a:hover { background: #5a1f6b; }
   footer { background: var(--mid); text-align: center; padding: 20px; color: var(--subtext); font-size: 0.82rem; border-top: 1px solid rgba(255,255,255,0.05); }
   footer a { color: var(--primary); text-decoration: none; }
+  .search-bar { background: var(--mid); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px 20px; margin-bottom: 32px; display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; }
+  .search-bar input { width: 100%; background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 11px 14px; font-size: 0.97rem; outline: none; font-family: inherit; }
+  .search-bar input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(192,132,252,0.15); }
+  .search-bar input::placeholder { color: var(--subtext); }
+  .search-stats { color: var(--subtext); font-size: 0.88rem; white-space: nowrap; }
+  .search-stats b { color: var(--accent); }
+  .hidden { display: none !important; }
+  .dl-card a.sec { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--subtext); }
+  .dl-card a.sec:hover { background: rgba(255,255,255,0.06); color: var(--text); }
   @media (max-width: 700px) { .container { padding: 16px; } header { padding: 16px; } nav { padding: 0 6px; } nav a { padding: 9px 9px; font-size: 0.76rem; } h2 { font-size: 1.2rem; } .two-col, .size-demo { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -112,8 +121,13 @@
 
 <div class="container">
 
+  <div class="search-bar">
+    <input id="siteSearch" type="search" placeholder="Search anything — dynamic playlist, canvas size, BSN.Cloud, scale to fit, XC5, troubleshoot...">
+    <div class="search-stats"><b id="searchCount"></b> <span id="searchLabel"></span></div>
+  </div>
+
   <!-- ═══════════════════ QUICK REF ═══════════════════ -->
-  <section id="quickref">
+  <section id="quickref" data-section="quickref">
     <div class="callout">
       <div class="callout-icon">🔑</div>
       <div>
@@ -138,7 +152,7 @@
   </section>
 
   <!-- ═══════════════════ ECOSYSTEM ═══════════════════ -->
-  <section id="ecosystem">
+  <section id="ecosystem" data-section="ecosystem">
     <h2>🗺️ BrightSign Ecosystem Overview</h2>
     <p style="color:var(--subtext); margin-bottom:20px;">Understanding how the pieces fit together before you start saves hours of frustration.</p>
 
@@ -185,7 +199,7 @@
   </section>
 
   <!-- ═══════════════════ BSN.CLOUD SETUP ═══════════════════ -->
-  <section id="bsncloud">
+  <section id="bsncloud" data-section="bsncloud">
     <h2>☁️ BSN.Cloud — Account & Network Setup</h2>
 
     <h3 style="color:var(--accent); margin-bottom:14px;">Creating Your Account & First Network</h3>
@@ -232,7 +246,7 @@
   </section>
 
   <!-- ═══════════════════ PLAYERS ═══════════════════ -->
-  <section id="players">
+  <section id="players" data-section="players">
     <h2>🖥️ BrightSign Players — Setup & Registration</h2>
 
     <h3 style="color:var(--accent); margin-bottom:14px;">Adding a New Player to BSN.Cloud</h3>
@@ -265,7 +279,7 @@
   </section>
 
   <!-- ═══════════════════ PRESENTATIONS ═══════════════════ -->
-  <section id="presentations">
+  <section id="presentations" data-section="presentations">
     <h2>🎨 Building Presentations in BrightAuthor:connected</h2>
 
     <h3 style="color:var(--accent); margin-bottom:14px;">Creating a New Presentation</h3>
@@ -328,7 +342,7 @@
   </section>
 
   <!-- ═══════════════════ CANVAS & SIZING ═══════════════════ -->
-  <section id="sizing">
+  <section id="sizing" data-section="sizing">
     <h2>📐 Canvas Size, Presentation Size & Screen Sizing</h2>
 
     <div class="callout" style="margin-bottom:22px;">
@@ -413,7 +427,7 @@
   </section>
 
   <!-- ═══════════════════ PLAYLISTS ═══════════════════ -->
-  <section id="playlists">
+  <section id="playlists" data-section="playlists">
     <h2>🎬 Playlists & Dynamic Playlists</h2>
 
     <div class="two-col" style="margin-bottom:26px;">
@@ -468,7 +482,7 @@
   </section>
 
   <!-- ═══════════════════ PUBLISHING ═══════════════════ -->
-  <section id="publishing">
+  <section id="publishing" data-section="publishing">
     <h2>📤 Publishing Content</h2>
 
     <h3 style="color:var(--accent); margin-bottom:14px;">Publishing a Presentation to Players</h3>
@@ -497,7 +511,7 @@
   </section>
 
   <!-- ═══════════════════ TROUBLESHOOTING ═══════════════════ -->
-  <section id="troubleshooting">
+  <section id="troubleshooting" data-section="troubleshooting">
     <h2>🔧 Troubleshooting</h2>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
@@ -571,7 +585,7 @@
   </section>
 
   <!-- ═══════════════════ DOCS & VIDEOS ═══════════════════ -->
-  <section id="docs">
+  <section id="docs" data-section="docs">
     <h2>📚 Official Documentation & Training Videos</h2>
 
     <h3 style="color:var(--accent); margin-bottom:14px;">Official Documentation (docs.brightsign.biz)</h3>
@@ -580,19 +594,19 @@
         <div class="dl-icon">🚀</div>
         <h3>Start Here — New User Guide</h3>
         <p>8–12 minute overview of the full BrightSign ecosystem. Best starting point for anyone new to BrightSign.</p>
-        <a href="https://docs.brightsign.biz/start-here" target="_blank">Open Guide</a>
+        <a href="https://docs.brightsign.biz/start-here" target="_blank">Open Guide</a><a href="https://docs.brightsign.biz/start-here" target="_blank" class="sec" style="margin-left:6px;">↗ Docs</a>
       </div>
       <div class="dl-card">
         <div class="dl-icon">📖</div>
         <h3>User Guides</h3>
         <p>Full documentation for BrightAuthor:connected — presentations, content, schedule, network, admin, BSN.Cloud.</p>
-        <a href="https://docs.brightsign.biz/user-guides" target="_blank">Open Guide</a>
+        <a href="https://docs.brightsign.biz/user-guides" target="_blank">Open Guide</a><a href="https://docs.brightsign.biz/user-guides" target="_blank" class="sec" style="margin-left:6px;">↗ Docs</a>
       </div>
       <div class="dl-card">
         <div class="dl-icon">🎥</div>
         <h3>Video Guides (How-Tos)</h3>
         <p>Concise video walkthroughs covering player setup, presentations, publishing, touch panels, and CMS integrations.</p>
-        <a href="https://docs.brightsign.biz/how-tos/video-guides" target="_blank">Open Guide</a>
+        <a href="https://docs.brightsign.biz/how-tos/video-guides" target="_blank">Open Guide</a><a href="https://docs.brightsign.biz/how-tos/video-guides" target="_blank" class="sec" style="margin-left:6px;">↗ Docs</a>
       </div>
       <div class="dl-card">
         <div class="dl-icon">📄</div>
@@ -604,25 +618,25 @@
         <div class="dl-icon">☁️</div>
         <h3>BSN.Cloud User Guide</h3>
         <p>Full guide to BSN.Control and BSN.Content — account setup, content management, player management.</p>
-        <a href="https://docs.brightsign.biz/user-guides/bsncloud" target="_blank">Open Guide</a>
+        <a href="https://docs.brightsign.biz/user-guides/bsncloud" target="_blank">Open Guide</a><a href="https://docs.brightsign.biz/user-guides/bsncloud" target="_blank" class="sec" style="margin-left:6px;">↗ Docs</a>
       </div>
       <div class="dl-card">
         <div class="dl-icon">🎬</div>
         <h3>Presentation User Guide</h3>
         <p>Deep dive into building presentations — zones, playlists, widgets, advanced events, templates.</p>
-        <a href="https://docs.brightsign.biz/user-guides/presentation" target="_blank">Open Guide</a>
+        <a href="https://docs.brightsign.biz/user-guides/presentation" target="_blank">Open Guide</a><a href="https://docs.brightsign.biz/user-guides/presentation" target="_blank" class="sec" style="margin-left:6px;">↗ Docs</a>
       </div>
       <div class="dl-card">
         <div class="dl-icon">📋</div>
         <h3>Content User Guide</h3>
         <p>Dynamic playlists, live data feeds, media feeds, HTML sites, scripts — full content library reference.</p>
-        <a href="https://docs.brightsign.biz/user-guides/content" target="_blank">Open Guide</a>
+        <a href="https://docs.brightsign.biz/user-guides/content" target="_blank">Open Guide</a><a href="https://docs.brightsign.biz/user-guides/content" target="_blank" class="sec" style="margin-left:6px;">↗ Docs</a>
       </div>
       <div class="dl-card">
         <div class="dl-icon">💡</div>
         <h3>LED Wall How-To</h3>
         <p>Display a Direct View LED Presentation — zone sizing, custom resolutions, multi-output players.</p>
-        <a href="https://docs.brightsign.biz/how-tos/display-a-direct-view-led-presentation" target="_blank">Open Guide</a>
+        <a href="https://docs.brightsign.biz/how-tos/display-a-direct-view-led-presentation" target="_blank">Open Guide</a><a href="https://docs.brightsign.biz/how-tos/display-a-direct-view-led-presentation" target="_blank" class="sec" style="margin-left:6px;">↗ Docs</a>
       </div>
       <div class="dl-card">
         <div class="dl-icon">⚡</div>
@@ -683,5 +697,5 @@
   <p style="margin-top:4px; font-size:0.77rem;">Sources: docs.brightsign.biz · support.brightsign.biz · brightsign.biz · vimeo.com/brightsign</p>
 </footer>
 
-</body>
-</html>
+<script>
+  const
